@@ -5,9 +5,8 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
-                    </a>
+                    <a href="/stocks"><img class="rounded" src="https://i.ytimg.com/vi/muxkSOruZTM/maxresdefault.jpg" alt="to the moon" width="70"></a>
+
                 </div>
 
                 <!-- Navigation Links -->

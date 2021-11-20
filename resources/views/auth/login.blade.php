@@ -1,9 +1,7 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+            <img class="rounded" src="https://i.ytimg.com/vi/muxkSOruZTM/maxresdefault.jpg" alt="to the moon" width="500">
         </x-slot>
 
         <!-- Session Status -->
@@ -46,6 +44,7 @@
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
+                    <a class="ml-2 underline text-sm text-gray-600 hover:text-gray-900" href="/register">Register</a>
 
                 <x-button class="ml-3">
                     {{ __('Log in') }}

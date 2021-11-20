@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/stocks', [\App\Http\Controllers\StocksController::class, 'index'])->middleware('auth');
-Route::post('/stocks', [\App\Http\Controllers\StocksController::class, 'showCompanies'])->middleware('auth');
-Route::get('/stock/{symbol}', [\App\Http\Controllers\StocksController::class, 'showStockInfo'])->middleware('auth');
+Route::post('/stocks', [\App\Http\Controllers\StocksController::class, 'showSymbols'])->middleware('auth');
+Route::get('/stock/{symbol}', [\App\Http\Controllers\StocksController::class, 'showCompanyInfo'])->middleware('auth');
 
 
 Route::get('/dashboard', function () {

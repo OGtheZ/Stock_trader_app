@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Company;
+use App\Models\Quote;
+use App\Models\Symbol;
 use Finnhub\Api\DefaultApi;
 use Finnhub\Configuration;
 use GuzzleHttp\Client;
@@ -17,7 +19,7 @@ class StocksController extends Controller
         return view('stocks/stocks');
     }
 
-    public function showCompanies(Request $request)
+    public function showSymbols(Request $request)
     {
         $request->validate(['min:1']);
         $config = Configuration::getDefaultConfiguration()->setApiKey('token', 'c6a0h42ad3idi8g5l53g');
@@ -26,23 +28,48 @@ class StocksController extends Controller
             $config
         );
         $data = $client->symbolSearch($request->company)->getResult();
-        $companies = [];
-        foreach($data as $company)
-        {
-            $companies[] = new Company($company->getDescription(), $company->getSymbol(), $company->getType());
-        }
-        return view('stocks/stocks',['companies' => $companies]);
+        $symbolData = $data[0];
+        $symbol = new Symbol(
+            $symbolData->getDescription(),
+            $symbolData->getSymbol(),
+            $symbolData->getType()
+        );
+        $symbols = [$symbol];
+
+        return view('stocks/stocks', ['symbols' => $symbols]);
 
     }
 
-    public function showStockInfo(string $symbol)
+    public function showCompanyInfo(string $symbol)
     {
         $config = Configuration::getDefaultConfiguration()->setApiKey('token', 'c6a0h42ad3idi8g5l53g');
         $client = new DefaultApi(
             new Client(),
             $config
         );
-        $data = $client->companyProfile2($symbol);
-        var_dump($data);die;
+        $companyData = $client->companyProfile2($symbol);
+        $company = new Company(
+            $companyData->getName(),
+            $companyData->getTicker(),
+            $companyData->getCountry(),
+            $companyData->getExchange(),
+            $companyData->getLogo(),
+            $companyData->getWeburl()
+        );
+        $quoteData = $client->quote($symbol);
+        $quote = new Quote(
+            $quoteData->getC(),
+            $quoteData->getDp(),
+            $quoteData->getH(),
+            $quoteData->getL(),
+            $quoteData->getO(),
+            $quoteData->getPc(),
+        );
+
+        return \view('stocks/company',
+            ['company' => $company,
+            'quote' => $quote]
+        );
+
     }
 }
