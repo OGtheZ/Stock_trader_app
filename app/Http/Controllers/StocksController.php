@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Quote;
 use App\Models\Symbol;
+use App\Repositories\Stock\StocksRepository;
 use Finnhub\Api\DefaultApi;
 use Finnhub\Configuration;
 use GuzzleHttp\Client;
@@ -14,6 +15,13 @@ use Illuminate\View\View;
 
 class StocksController extends Controller
 {
+    private StocksRepository $stocksRepository;
+
+    public function __construct(StocksRepository $stocksRepository)
+    {
+        $this->stocksRepository = $stocksRepository;
+    }
+
     public function index(): view
     {
         return view('stocks/stocks');
@@ -22,49 +30,16 @@ class StocksController extends Controller
     public function showSymbols(Request $request)
     {
         $request->validate(['min:1']);
-        $config = Configuration::getDefaultConfiguration()->setApiKey('token', 'c6a0h42ad3idi8g5l53g');
-        $client = new DefaultApi(
-            new Client(),
-            $config
-        );
-        $data = $client->symbolSearch($request->company)->getResult();
-        $symbolData = $data[0];
-        $symbol = new Symbol(
-            $symbolData->getDescription(),
-            $symbolData->getSymbol(),
-            $symbolData->getType()
-        );
-        $symbols = [$symbol];
+
+        $symbols = $this->stocksRepository->getCompanySymbol($request->company);
 
         return view('stocks/stocks', ['symbols' => $symbols]);
-
     }
 
     public function showCompanyInfo(string $symbol)
     {
-        $config = Configuration::getDefaultConfiguration()->setApiKey('token', 'c6a0h42ad3idi8g5l53g');
-        $client = new DefaultApi(
-            new Client(),
-            $config
-        );
-        $companyData = $client->companyProfile2($symbol);
-        $company = new Company(
-            $companyData->getName(),
-            $companyData->getTicker(),
-            $companyData->getCountry(),
-            $companyData->getExchange(),
-            $companyData->getLogo(),
-            $companyData->getWeburl()
-        );
-        $quoteData = $client->quote($symbol);
-        $quote = new Quote(
-            $quoteData->getC(),
-            $quoteData->getDp(),
-            $quoteData->getH(),
-            $quoteData->getL(),
-            $quoteData->getO(),
-            $quoteData->getPc(),
-        );
+        $company = $this->stocksRepository->getCompanyInfo($symbol);
+        $quote = $this->stocksRepository->getQuote($symbol);
 
         return \view('stocks/company',
             ['company' => $company,
