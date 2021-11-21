@@ -19,7 +19,11 @@
     <p>24H low price: {{$quote->getLowPrice()}} $</p>
     <p>Open price: {{$quote->getOpenPrice()}} $</p>
     <p>Prev. close price: {{$quote->getPreviousClosePrice()}} $</p>
-        <form action="/stock/{{$company->getTicker()}}/buy">
+        @foreach ($errors->all() as $error)
+            <p class="text-red-600 font-bold mt-2">{{ $error }}</p>
+        @endforeach
+
+        <form action="/stock/{{$company->getTicker()}}/buy" method="post">
             @csrf
             <label for="amount">Amount:</label>
             <input type="text" id="amount" name="amount">

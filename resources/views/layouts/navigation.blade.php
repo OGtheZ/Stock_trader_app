@@ -15,7 +15,13 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link href="/stocks">
-                        Stocks
+                        Buy stocks
+                    </x-nav-link>
+                    <x-nav-link href="/portfolio">
+                        Portfolio
+                    </x-nav-link>
+                    <x-nav-link href="/addFunds">
+                        Add funds
                     </x-nav-link>
                 </div>
             </div>
@@ -25,6 +31,7 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
+                        <div>{{ Auth::user()->money }}$</div>
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             <div>{{ Auth::user()->name }}</div>
 

@@ -9,8 +9,12 @@ class Stock extends Model
 {
     use HasFactory;
 
+    public $timestamps = FALSE;
+
     protected $fillable = [
-      'quantity'
+        'company_name',
+        'ticker',
+        'quantity',
     ];
 
     public function user()

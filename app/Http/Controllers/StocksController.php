@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Quote;
+use App\Models\Stock;
 use App\Models\Symbol;
 use App\Repositories\Stock\StocksRepository;
 use Finnhub\Api\DefaultApi;
@@ -29,7 +30,7 @@ class StocksController extends Controller
 
     public function showSymbols(Request $request)
     {
-        $request->validate(['min:1']);
+        $request->validate(['company' => 'min:1']);
 
         $symbols = $this->stocksRepository->getCompanySymbol($request->company);
 
@@ -45,6 +46,12 @@ class StocksController extends Controller
             ['company' => $company,
             'quote' => $quote]
         );
+    }
 
+    public function showPortfolio()
+    {
+       $stocks = Stock::where(['user_id' => auth()->user()->id])->get();
+
+       return view('stocks/portfolio', ['stocks' => $stocks]);
     }
 }
