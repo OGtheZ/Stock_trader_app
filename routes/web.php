@@ -17,6 +17,7 @@ Route::get('/stocks', [\App\Http\Controllers\StocksController::class, 'index'])-
 Route::post('/stocks', [\App\Http\Controllers\StocksController::class, 'showSymbols'])->middleware('auth');
 Route::get('/stock/{symbol}', [\App\Http\Controllers\StocksController::class, 'showCompanyInfo'])->middleware('auth');
 Route::post('/stock/{symbol}/buy', [\App\Http\Controllers\TransactionsController::class, 'buyStock'])->middleware('auth');
+Route::post('/stock/{symbol}/sell', [\App\Http\Controllers\TransactionsController::class, 'sellStock'])->middleware('auth');
 Route::get('/addFunds', [\App\Http\Controllers\TransactionsController::class, 'showAddFundsPage'])->middleware('auth');
 Route::post('/addFunds', [\App\Http\Controllers\TransactionsController::class, 'addFunds'])->middleware('auth');
 Route::get('/portfolio', [\App\Http\Controllers\StocksController::class, 'showPortfolio'])->middleware('auth');

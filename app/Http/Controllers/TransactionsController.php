@@ -32,7 +32,7 @@ class TransactionsController extends Controller
             return back()->withErrors(['', 'Not enough funds!']);
         }
 
-        $stocks = Stock::where(['user_id' => $user>id, 'company_name' => $company->getName()])->get();
+        $stocks = Stock::where(['user_id' => $user->id, 'company_name' => $company->getName()])->get();
         if(empty($stocks->all())){
             $stock = new Stock([
                 'company_name' => $company->getName(),
@@ -57,6 +57,37 @@ class TransactionsController extends Controller
         $transaction->save();
 
         $user->update(['money' => $user->money -= $total]);
+
+        return redirect()->back();
+    }
+
+    public function sellStock(string $symbol, Request $request)
+    {
+        $request->validate(['quantity' => 'required|numeric|gt:0']);
+        $amount = $request['quantity'];
+        $user = auth()->user();
+        $quote = $this->stocksRepository->getQuote($symbol);
+        $totalPrice = $quote->getCurrentPrice() * $amount;
+        $stock = Stock::where(['user_id' => $user->id, 'ticker' => $symbol])->first();
+        if($amount > $stock->quantity)
+        {
+            return back()->withErrors(['', "You don't have this many shares!"]);
+        }
+        if($amount == $stock->quantity){
+            $stock->delete();
+            $user->update(['money' => $user->money += $totalPrice]);
+            return redirect()->back();
+        }
+        $stock->update(['quantity' => $stock->quantity -= $amount]);
+        $user->update(['money' => $user->money += $totalPrice]);
+        $transaction = new Transaction([
+            'price' => $quote->getCurrentPrice(),
+            'quantity' => $request['quantity'],
+            'type' => 'Sell'
+        ]);
+        $transaction->user()->associate(auth()->user());
+        $transaction->stock()->associate($stock);
+        $transaction->save();
 
         return redirect()->back();
     }

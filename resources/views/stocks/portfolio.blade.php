@@ -12,6 +12,9 @@
         <div class="mt-2 text-lg">
             Wallet balance: <b>{{ Auth::user()->money }} $</b>
         </div>
+            <div class="mt-2 text-lg">
+                Total asset worth: <b>{{ $assetWorth }} $</b>
+            </div>
             <br>
             @if(empty($stocks->all()))
                 <p>You own no stocks!</p>
@@ -28,8 +31,10 @@
                         <td class="border border-gray-400 mr-2 text-center">{{ $stock->ticker }}</td>
                         <td class="border border-gray-400 mr-2 text-center">{{ $stock->quantity }}</td>
                         <td class="">
-                            <form action="/stock/{{$stock->ticker}}/sell">
+                            <form action="/stock/{{$stock->ticker}}/sell" method="post">
                                 @csrf
+                                <label for="quantity"></label>
+                                <input class="w-12 ml-2.5" type="text" id="quantity" name="quantity">
                                 <button class="m-2.5 border border-black hover:bg-gray-300 py-1 px-2 rounded text-red-600 hover:bg-red-300" type="submit">Sell</button>
                             </form>
                         </td>

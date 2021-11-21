@@ -51,7 +51,13 @@ class StocksController extends Controller
     public function showPortfolio()
     {
        $stocks = Stock::where(['user_id' => auth()->user()->id])->get();
+       $totalWorth = 0;
+       foreach($stocks as $stock)
+       {
+           $quote = $this->stocksRepository->getQuote($stock->ticker);
+           $totalWorth += $quote->getCurrentPrice()*$stock->quantity;
+       }
 
-       return view('stocks/portfolio', ['stocks' => $stocks]);
+       return view('stocks/portfolio', ['stocks' => $stocks, "assetWorth" => $totalWorth]);
     }
 }
