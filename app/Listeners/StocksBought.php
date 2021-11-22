@@ -21,7 +21,7 @@ class StocksBought
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle(\App\Events\StocksBought $event)
     {
         Mail::to($event->getEmail())->send(new StocksBoughtMail($event->getName(),
         $event->getTime(),

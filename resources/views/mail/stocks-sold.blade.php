@@ -298,7 +298,7 @@
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td class="content-block">
-                                        <h1 class="aligncenter">${{ $totalPrice }} Paid</h1>
+                                        <h1 class="aligncenter">Sale total: ${{ $totalPrice }}</h1>
                                     </td>
                                 </tr>
                                 <tr>
@@ -314,13 +314,13 @@
                                     <td class="content-block aligncenter">
                                         <table class="invoice">
                                             <tr>
-                                                <td>Dear, {{ $name }}, there was a purchase made from your account at: {{ $time }}(UTC)</td>
+                                                <td>Dear, {{ $name }}, there was a sale made from your account at: {{ $time }}(UTC)</td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <table class="invoice-items" cellpadding="0" cellspacing="0">
                                                         <tr>
-                                                            <td>Stock: {{ $stockName }}({{$stockTicker}})</td>
+                                                            <td>Stock: {{ $stockName }} ({{$stockTicker}})</td>
                                                             <td>Amount: {{ $stockAmount }}</td>
                                                             <td class="alignright">price: {{ $stockPrice }}</td>
                                                         </tr>

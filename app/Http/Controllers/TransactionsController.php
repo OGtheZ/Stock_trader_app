@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\StocksBought;
+use App\Events\StocksSold;
 use App\Models\Stock;
 use App\Models\Transaction;
 use App\Repositories\Stock\StocksRepository;
@@ -104,6 +105,16 @@ class TransactionsController extends Controller
         $transaction->user()->associate(auth()->user());
         $transaction->stock()->associate($stock);
         $transaction->save();
+
+        StocksSold::dispatch(auth()->user()->email,
+            auth()->user()->name,
+            $transaction->created_at,
+            $transaction->company_name,
+            $transaction->price,
+            $stock->ticker,
+            $transaction->quantity,
+            $transaction->total
+        );
 
         return redirect()->back();
     }

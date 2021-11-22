@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\emailReceived;
 use App\Events\StocksBought;
+use App\Events\StocksSold;
 use App\Listeners\sendEmailWhenEmailReceived;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -26,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         StocksBought::class => [
             \App\Listeners\StocksBought::class
+        ],
+        StocksSold::class => [
+            \App\Listeners\StocksSold::class
         ]
     ];
 
