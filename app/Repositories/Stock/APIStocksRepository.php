@@ -50,6 +50,7 @@ class APIStocksRepository implements StocksRepository
         }
 
         $companyData = $this->client->companyProfile2($symbol);
+
         $company = new Company(
             $companyData->getName(),
             $companyData->getTicker(),

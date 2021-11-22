@@ -14,7 +14,7 @@ class UpdateUsersTableAddMoney extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('money')->default(0);
+            $table->float('money')->default(0);
         });
     }
 

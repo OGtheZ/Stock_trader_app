@@ -21,6 +21,7 @@ Route::post('/stock/{symbol}/sell', [\App\Http\Controllers\TransactionsControlle
 Route::get('/addFunds', [\App\Http\Controllers\TransactionsController::class, 'showAddFundsPage'])->middleware('auth');
 Route::post('/addFunds', [\App\Http\Controllers\TransactionsController::class, 'addFunds'])->middleware('auth');
 Route::get('/portfolio', [\App\Http\Controllers\StocksController::class, 'showPortfolio'])->middleware('auth');
+Route::get('/history', [\App\Http\Controllers\TransactionsController::class, 'transactionHistory'])->middleware('auth');
 
 
 Route::get('/dashboard', function () {

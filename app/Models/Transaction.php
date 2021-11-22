@@ -12,7 +12,9 @@ class Transaction extends Model
     protected $fillable = [
         'price',
         'quantity',
-        'type'
+        'type',
+        'company_name',
+        'total'
     ];
 
 

@@ -20,6 +20,8 @@ class CreateTransactionsTable extends Migration
             $table->string('price');
             $table->string('quantity');
             $table->string('type');
+            $table->string('company_name');
+            $table->float('total');
             $table->timestamps();
         });
     }

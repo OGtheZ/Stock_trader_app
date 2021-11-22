@@ -23,6 +23,9 @@
                     <x-nav-link href="/addFunds">
                         Add funds
                     </x-nav-link>
+                    <x-nav-link href="/history">
+                        Order history
+                    </x-nav-link>
                 </div>
             </div>
 

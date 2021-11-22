@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StocksBought;
 use App\Models\Stock;
 use App\Models\Transaction;
 use App\Repositories\Stock\StocksRepository;
@@ -50,13 +51,26 @@ class TransactionsController extends Controller
         $transaction = new Transaction([
             'price' => $quote->getCurrentPrice(),
             'quantity' => $validated['amount'],
-            'type' => 'Buy'
+            'type' => 'Buy',
+            'company_name' => $company->getName(),
+            'total' => $total
         ]);
         $transaction->user()->associate(auth()->user());
         $transaction->stock()->associate($stock);
         $transaction->save();
 
         $user->update(['money' => $user->money -= $total]);
+
+        StocksBought::dispatch(auth()->user()->email,
+            auth()->user()->name,
+            $transaction->created_at,
+            $transaction->company_name,
+            $transaction->price,
+            $stock->ticker,
+            $transaction->quantity,
+            $transaction->total
+            );
+
 
         return redirect()->back();
     }
@@ -83,7 +97,9 @@ class TransactionsController extends Controller
         $transaction = new Transaction([
             'price' => $quote->getCurrentPrice(),
             'quantity' => $request['quantity'],
-            'type' => 'Sell'
+            'type' => 'Sell',
+            'company_name' => $stock->company_name,
+            'total' => $totalPrice
         ]);
         $transaction->user()->associate(auth()->user());
         $transaction->stock()->associate($stock);
@@ -103,5 +119,11 @@ class TransactionsController extends Controller
         $user = auth()->user();
         $user->update(['money' => $user->money += $request['amount']]);
         return redirect()->back();
+    }
+
+    public function transactionHistory()
+    {
+        $transactions = Transaction::where(['user_id' => auth()->user()->id])->get();
+        return view('stocks/history', ['transactions' => $transactions]);
     }
 }
