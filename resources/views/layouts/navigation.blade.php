@@ -14,16 +14,16 @@
                     <x-nav-link href="/welcome" :active="request()->routeIs('dashboard')">
                         Welcome
                     </x-nav-link>
-                    <x-nav-link href="/stocks">
+                    <x-nav-link href="/stocks" :active="request()->routeIs('stocks')">
                         Buy stocks
                     </x-nav-link>
-                    <x-nav-link href="/portfolio">
+                    <x-nav-link href="/portfolio" :active="request()->routeIs('portfolio')">
                         Portfolio
                     </x-nav-link>
-                    <x-nav-link href="/addFunds">
+                    <x-nav-link href="/addFunds" :active="request()->routeIs('addFunds')">
                         Add funds
                     </x-nav-link>
-                    <x-nav-link href="/history">
+                    <x-nav-link href="/history" :active="request()->routeIs('history')">
                         Order history
                     </x-nav-link>
                 </div>
