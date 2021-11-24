@@ -69,7 +69,7 @@
                                 @if(now()->format("H:i")>'14:30' && now()->format("H:i") <'21:00')
                                 <button class="m-2.5 border border-black hover:bg-gray-300 py-1 px-2 rounded text-red-600 hover:bg-red-300" onclick="return confirm('Are you sure?')" type="submit">Sell</button>
                                 @else
-                                    <button class="m-2.5 border border-black hover:bg-gray-300 py-1 px-2 rounded text-red-600 hover:bg-red-300" disabled type="submit" onclick="return confirm('Are you sure?')">Sell</button>
+                                    <button class="m-2.5 border border-black bg-gray-400 py-1 px-2 rounded text-red-600" disabled type="submit" onclick="return confirm('Are you sure?')">Sell</button>
                                     @endif
                             </form>
                         </td>
