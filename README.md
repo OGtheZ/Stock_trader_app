@@ -13,3 +13,6 @@ Make sure to run php artisan migrate, to create all necessary tables in the data
 Setup your mailing services in the .env file.
 The emails are automated, and You will need to run php artisan queue:listen to run jobs and send the emails.
 
+Set CACHE_DRIVER and QUEUE_CONNECTION to database in the .env file.
+
+That's it, you are ready to use the stock trading app. To launch a local server run php artisan serv in the terminal.
