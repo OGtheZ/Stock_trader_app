@@ -15,6 +15,7 @@ class Stock extends Model
         'company_name',
         'ticker',
         'quantity',
+        'average_price'
     ];
 
     public function user()

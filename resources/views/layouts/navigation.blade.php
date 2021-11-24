@@ -5,14 +5,14 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="/stocks"><img class="rounded" src="https://i.ytimg.com/vi/muxkSOruZTM/maxresdefault.jpg" alt="to the moon" width="70"></a>
+                    <a href="/welcome"><img class="rounded" src="https://i.ytimg.com/vi/muxkSOruZTM/maxresdefault.jpg" alt="to the moon" width="70"></a>
 
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link href="/welcome" :active="request()->routeIs('dashboard')">
+                        Welcome
                     </x-nav-link>
                     <x-nav-link href="/stocks">
                         Buy stocks
@@ -34,7 +34,7 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <div>{{ Auth::user()->money }}$</div>
+                        <div>{{ number_format(Auth::user()->money,2) }}$</div>
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             <div>{{ Auth::user()->name }}</div>
 

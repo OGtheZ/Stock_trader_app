@@ -29,19 +29,23 @@
         @foreach ($errors->all() as $error)
             <p class="text-red-600 font-bold mt-2">{{ $error }}</p>
         @endforeach
+        @if(Session::has('success'))
 
+           <p class="text-blue-600 font-bold mt-2">{{ Session::get('success') }}</p>
+
+        @endif
         <form action="/stock/{{$company->getTicker()}}/buy" method="post">
             @csrf
+
+                <label for="amount">Amount:</label>
+                <input type="text" id="amount" name="amount">
             @if(now()->format("H:i")>'14:00' && now()->format("H:i") <'21:00')
-                <label for="amount">Amount:</label>
-                <input type="text" id="amount" name="amount">
-                <button class=" rounded bg-green-600 border-black py-2 px-4 " type="submit">Buy</button>
+                <button class="mb-2 rounded bg-green-400 border-green py-2 px-4 hover:bg-green-600 " type="submit">Buy</button>
             @else
-            <p class="mt-2 text-lg"><b>Stock purchases are available from 14:00-21:00(UTC)</b></p>
-                <label for="amount">Amount:</label>
-                <input type="text" id="amount" name="amount">
-                <button class=" rounded bg-gray-600 border-black py-2 px-4 " disabled type="submit">Buy</button>
+                <button class="mb-2 rounded bg-gray-600 border-green py-2 px-4 " disabled type="submit">Buy</button>
                 @endif
+            <p class="mt-2 text-lg"><b>Stock purchases are available from 14:30-21:00(UTC)</b></p>
+
 
         </form>
     </div>

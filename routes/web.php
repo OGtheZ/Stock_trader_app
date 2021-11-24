@@ -24,7 +24,7 @@ Route::get('/portfolio', [\App\Http\Controllers\StocksController::class, 'showPo
 Route::get('/history', [\App\Http\Controllers\TransactionsController::class, 'transactionHistory'])->middleware('auth');
 
 
-Route::get('/dashboard', function () {
+Route::get('/welcome', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 

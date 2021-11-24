@@ -9,7 +9,7 @@
             <p class="text-red-600 font-bold mt-2">{{ $error }}</p>
         @endforeach
 
-            <table class="w-full">
+            <table class="w-full mt-2">
                 <tr class="">
                     <th class="p-2 w-1/6 bg-gray-300">Company name </th>
                     <th class="bg-gray-300 mr-2 w-1/6">Total </th>
@@ -21,10 +21,14 @@
                 @foreach($transactions as $transaction)
                     <tr>
                         <td class="border border-gray-200 mr-2 text-center">{{ $transaction->company_name }}</td>
-                        <td class="border border-gray-200 mr-2 text-center">{{ $transaction->total }} $</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ number_format($transaction->total,2) }} $</td>
                         <td class="border border-gray-200 mr-2 text-center">{{ $transaction->quantity }}</td>
-                        <td class="border border-gray-200 mr-2 text-center">{{ $transaction->price }} $</td>
-                        <td class="border border-gray-200 mr-2 text-center">{{ $transaction->type }}</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ number_format($transaction->price,2) }} $</td>
+                        @if($transaction->type == 'Buy')
+                        <td class="border border-gray-200 mr-2 text-center text-green-600">{{ $transaction->type }}</td>
+                        @else
+                            <td class="border border-gray-200 mr-2 text-center text-red-600">{{ $transaction->type }}</td>
+                        @endif
                         <td class="border border-gray-200 mr-2 text-center">{{ $transaction->created_at }}</td>
                         @endforeach
                     </tr>

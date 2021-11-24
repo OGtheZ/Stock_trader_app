@@ -3,15 +3,9 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Company;
-use App\Models\Quote;
 use App\Models\Stock;
-use App\Models\Symbol;
 use App\Repositories\Stock\StocksRepository;
-use Finnhub\Api\DefaultApi;
 use Finnhub\ApiException;
-use Finnhub\Configuration;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -34,7 +28,7 @@ class StocksController extends Controller
         $request->validate(['company' => 'min:1']);
 
         $symbols = $this->stocksRepository->getCompanySymbol($request->company);
-        if($symbols == null){
+        if ($symbols == null) {
             return redirect()->back()->withErrors(['', "Nothing  was found!"]);
         }
 
@@ -43,7 +37,7 @@ class StocksController extends Controller
 
     public function showCompanyInfo(string $symbol)
     {
-        try{
+        try {
             $company = $this->stocksRepository->getCompanyInfo($symbol);
             $quote = $this->stocksRepository->getQuote($symbol);
 
@@ -59,16 +53,23 @@ class StocksController extends Controller
 
     public function showPortfolio()
     {
-       $stocks = Stock::where(['user_id' => auth()->user()->id])->get();
-       $totalWorth = 0;
-       $quotes = [];
-       foreach($stocks as $stock)
-       {
-           $quote = $this->stocksRepository->getQuote($stock->ticker);
-           $quotes[] = [$quote->getCurrentPrice(), $quote->getPercentChange()];
-           $totalWorth += $quote->getCurrentPrice()*$stock->quantity;
-       }
-
-       return view('stocks/portfolio', ['stocks' => $stocks, "assetWorth" => $totalWorth, "quotes" => $quotes]);
+        $stocks = Stock::where(['user_id' => auth()->user()->id])->get();
+        $totalWorth = 0;
+        $totalSpent = 0;
+        $quotes = [];
+        foreach ($stocks as $stock) {
+            $quote = $this->stocksRepository->getQuote($stock->ticker);
+            $totalStockWorth = $quote->getCurrentPrice() * $stock->quantity;
+            $totalSpentOnStock = $stock->quantity * $stock->average_price;
+            $profit = round($totalStockWorth - $totalSpentOnStock, 2);
+            $totalSpent += $totalSpentOnStock;
+            $totalWorth += $totalStockWorth;
+            $quotes[] = [$quote->getCurrentPrice(), $quote->getPercentChange(), $profit, $totalStockWorth];
+        }
+        $totalWorth = round($totalWorth, 2);
+        $totalSpent = round($totalSpent, 2);
+        $totalProfit = round($totalWorth - $totalSpent, 2);
+        return view('stocks/portfolio', ['stocks' => $stocks, "assetWorth" => $totalWorth, "quotes" => $quotes,
+            'totalProfit' => $totalProfit]);
     }
 }

@@ -19,6 +19,7 @@ class CreateStocksTable extends Migration
             $table->string('company_name');
             $table->string('ticker');
             $table->bigInteger('quantity');
+            $table->float('average_price');
         });
     }
 
