@@ -20,7 +20,7 @@
 
     </div >
     <div class="max-w-7xl px-4 sm:px-6 lg:px-8 bg-gray-300 rounded">
-    <p class="mt-2">Current price: {{$quote->getCurrentPrice()}} $</p>
+    <p class="mt-2">Current price: {{round($quote->getCurrentPrice(),2)}} $</p>
     <p>Percent change: {{$quote->getPercentChange()}} %</p>
     <p>24H high price: {{$quote->getHighPrice()}} $</p>
     <p>24H low price: {{$quote->getLowPrice()}} $</p>
@@ -39,7 +39,7 @@
 
                 <label for="amount">Amount:</label>
                 <input type="text" id="amount" name="amount">
-            @if(now()->format("H:i")>'14:00' && now()->format("H:i") <'21:00')
+            @if(now()->format("H:i")>'14:30' && now()->format("H:i") <'21:00')
                 <button class="mb-2 rounded bg-green-400 border-green py-2 px-4 hover:bg-green-600 " type="submit">Buy</button>
             @else
                 <button class="mb-2 rounded bg-gray-600 border-green py-2 px-4 " disabled type="submit">Buy</button>

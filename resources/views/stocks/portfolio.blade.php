@@ -20,9 +20,11 @@
             @if(empty($stocks->all()))
                 <p>You own no stocks!</p>
             @else
+                <p class="mt-2 text-lg"><b>Stock sales are available from 14:30-21:00(UTC)</b></p>
                 <div class="mt-2 text-lg">
                     Total asset worth: <b>{{ $assetWorth }} $</b>
                 </div>
+
             <div>
                 Total PnL : <b>{{ $totalProfit }} $</b>
             </div>
@@ -64,7 +66,7 @@
                                 @csrf
                                 <label for="quantity"></label>
                                 <input class="w-12 ml-2.5" type="text" id="quantity" name="quantity">
-                                @if(now()->format("H:i")>'14:00' && now()->format("H:i") <'21:00')
+                                @if(now()->format("H:i")>'14:30' && now()->format("H:i") <'21:00')
                                 <button class="m-2.5 border border-black hover:bg-gray-300 py-1 px-2 rounded text-red-600 hover:bg-red-300" onclick="return confirm('Are you sure?')" type="submit">Sell</button>
                                 @else
                                     <button class="m-2.5 border border-black hover:bg-gray-300 py-1 px-2 rounded text-red-600 hover:bg-red-300" disabled type="submit" onclick="return confirm('Are you sure?')">Sell</button>
