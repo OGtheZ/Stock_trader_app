@@ -298,7 +298,7 @@
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td class="content-block">
-                                        <h1 class="aligncenter">Sale total: ${{ $totalPrice }}</h1>
+                                        <h1 class="aligncenter">Sale total: ${{ round($totalPrice, 2) }}</h1>
                                     </td>
                                 </tr>
                                 <tr>
@@ -322,7 +322,7 @@
                                                         <tr>
                                                             <td>Stock: {{ $stockName }} ({{$stockTicker}})</td>
                                                             <td>Amount: {{ $stockAmount }}</td>
-                                                            <td class="alignright">price: {{ $stockPrice }}</td>
+                                                            <td class="alignright">price: {{ round($stockPrice, 2) }} $</td>
                                                         </tr>
                                                     </table>
                                                 </td>

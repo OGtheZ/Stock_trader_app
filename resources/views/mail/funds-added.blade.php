@@ -298,7 +298,7 @@
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td class="content-block">
-                                        <h1 class="aligncenter">${{ $amount }} Deposited</h1>
+                                        <h1 class="aligncenter">${{ round($amount, 2) }} Deposited</h1>
                                     </td>
                                 </tr>
                                 <tr>
@@ -320,7 +320,7 @@
                                                 <td>
                                                     <table class="invoice-items" cellpadding="0" cellspacing="0">
                                                         <tr>
-                                                            <td>Amount: {{ $amount }} $</td>
+                                                            <td>Amount: {{ round($amount, 2) }} $</td>
                                                         </tr>
                                                     </table>
                                                 </td>
