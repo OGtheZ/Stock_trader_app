@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FundsAdded;
 use App\Events\StocksBought;
 use App\Events\StocksSold;
 use App\Models\Stock;
@@ -30,12 +31,12 @@ class TransactionsController extends Controller
         $total = $quote->getCurrentPrice() * $validated['amount'];
         $user = auth()->user();
 
-        if($total > auth()->user()->money){
+        if ($total > auth()->user()->money) {
             return back()->withErrors(['', 'Not enough funds!']);
         }
 
         $stocks = Stock::where(['user_id' => $user->id, 'company_name' => $company->getName()])->get();
-        if(empty($stocks->all())){
+        if (empty($stocks->all())) {
             $stock = new Stock([
                 'company_name' => $company->getName(),
                 'ticker' => $company->getTicker(),
@@ -70,7 +71,7 @@ class TransactionsController extends Controller
             $stock->ticker,
             $transaction->quantity,
             $transaction->total
-            );
+        );
 
 
         return redirect()->back();
@@ -84,11 +85,10 @@ class TransactionsController extends Controller
         $quote = $this->stocksRepository->getQuote($symbol);
         $totalPrice = $quote->getCurrentPrice() * $amount;
         $stock = Stock::where(['user_id' => $user->id, 'ticker' => $symbol])->first();
-        if($amount > $stock->quantity)
-        {
+        if ($amount > $stock->quantity) {
             return back()->withErrors(['', "You don't have this many shares!"]);
         }
-        if($amount == $stock->quantity){
+        if ($amount == $stock->quantity) {
             $stock->delete();
             $user->update(['money' => $user->money += $totalPrice]);
             return redirect()->back();
@@ -129,12 +129,18 @@ class TransactionsController extends Controller
         $request->validate(['amount' => 'required|numeric|gt:0']);
         $user = auth()->user();
         $user->update(['money' => $user->money += $request['amount']]);
+        FundsAdded::dispatch(
+            $user->email,
+            $user->name,
+            $request['amount'],
+            now()
+        );
         return redirect()->back();
     }
 
     public function transactionHistory()
     {
-        $transactions = Transaction::where(['user_id' => auth()->user()->id])->get();
+        $transactions = Transaction::where(['user_id' => auth()->user()->id])->orderBy('created_at', 'desc')->paginate(10);
         return view('stocks/history', ['transactions' => $transactions]);
     }
 }

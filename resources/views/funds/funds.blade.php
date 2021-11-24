@@ -12,7 +12,7 @@
         <p class="font-bold">At this time the website accepts only U.S. Dollars $.</p>
 
         <div class="mt-2">
-            <form action="/addFunds" method="post">
+            <form class="inline" action="/addFunds" method="post">
                 @csrf
                 <div class="mb-2"><label for="amount">Amount $ : </label>
                     <br>
@@ -50,10 +50,11 @@
                     <br>
                     <input class="rounded" type="text" name="cvv" id="cvv">
                 </div>
-
                 <br>
                 <button class="border p-1.5 border-black rounded hover:bg-gray-300" type="submit">Add funds</button>
+                <img class="mx-auto my-auto" src="https://www.waveswifi.com/sites/default/files/visa-mastercard-amex_0.png" alt="CCs image">
             </form>
+
         </div>
 
 

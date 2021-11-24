@@ -11,23 +11,24 @@
 
             <table class="w-full">
                 <tr class="">
-                    <th class="border-2 border-black p-2 w-1/6">Company name </th>
-                    <th class="border-2 border-black mr-2 w-1/6">Total </th>
-                    <th class="border-2 border-black mr-2 w-1/6">Quantity</th>
-                    <th class="border-2 border-black mr-2 w-1/6">Price</th>
-                    <th class="border-2 border-black mr-2 w-1/6">Order type</th>
-                    <th class="border-2 border-black mr-2 w-1/3">Order time</th>
+                    <th class="p-2 w-1/6 bg-gray-300">Company name </th>
+                    <th class="bg-gray-300 mr-2 w-1/6">Total </th>
+                    <th class="bg-gray-300 mr-2 w-1/6">Quantity</th>
+                    <th class="bg-gray-300 mr-2 w-1/6">Price</th>
+                    <th class="bg-gray-300 mr-2 w-1/6">Order type</th>
+                    <th class="bg-gray-300 mr-2 w-1/3">Order time</th>
                 </tr>
                 @foreach($transactions as $transaction)
                     <tr>
-                        <td class="border border-gray-400 mr-2 text-center">{{ $transaction->company_name }}</td>
-                        <td class="border border-gray-400 mr-2 text-center">{{ $transaction->total }}</td>
-                        <td class="border border-gray-400 mr-2 text-center">{{ $transaction->quantity }}</td>
-                        <td class="border border-gray-400 mr-2 text-center">{{ $transaction->price }}</td>
-                        <td class="border border-gray-400 mr-2 text-center">{{ $transaction->type }}</td>
-                        <td class="border border-gray-400 mr-2 text-center">{{ $transaction->created_at }}</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ $transaction->company_name }}</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ $transaction->total }} $</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ $transaction->quantity }}</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ $transaction->price }} $</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ $transaction->type }}</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ $transaction->created_at }}</td>
                         @endforeach
                     </tr>
             </table>
+        {{ $transactions->links() }}
     </div>
 </x-app-layout>

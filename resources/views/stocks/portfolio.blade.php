@@ -21,15 +21,23 @@
             @else
             <table>
                 <tr class="">
-                    <th class="border-2 border-black p-2 w-1/3">Company name </th>
-                    <th class="border-2 border-black mr-2 w-1/3">Company symbol </th>
-                    <th class="border-2 border-black mr-2 w-1/3">Quantity</th>
+                    <th class="bg-gray-300 w-1/5">Company name </th>
+                    <th class="bg-gray-300 mr-2 w-1/5">Company symbol </th>
+                    <th class="bg-gray-300 mr-2 w-1/5">Quantity</th>
+                    <th class="bg-gray-300 mr-2 w-1/5">Current price</th>
+                    <th class="bg-gray-300 mr-2 w-1/5">Percent change</th>
                 </tr>
-                @foreach($stocks as $stock)
+                @foreach($stocks as $key => $stock)
                     <tr>
-                        <td class="border border-gray-400 mr-2 text-center">{{ $stock->company_name }}</td>
-                        <td class="border border-gray-400 mr-2 text-center">{{ $stock->ticker }}</td>
-                        <td class="border border-gray-400 mr-2 text-center">{{ $stock->quantity }}</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ $stock->company_name }}</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ $stock->ticker }}</td>
+                        <td class="border border-gray-200 mr-2 text-center">{{ $stock->quantity }}</td>
+                        <td class="border border-gray-200 mr-2 text-center">
+                            {{ $quotes[$key][0] }} $
+                        </td>
+                        <td class="border border-gray-200 mr-2 text-center">
+                            {{ $quotes[$key][1] }} %
+                        </td>
                         <td class="">
                             <form action="/stock/{{$stock->ticker}}/sell" method="post">
                                 @csrf

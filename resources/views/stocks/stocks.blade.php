@@ -19,19 +19,19 @@
         @if(!empty($symbols))
             <table>
                 <tr class="">
-                    <th class="border-2 border-black p-1 mt-2 w-1/3">Company name </th>
-                    <th class="border-2 border-black p-1 mt-2 w-1/3">Company symbol </th>
-                    <th class="border-2 border-black p-1 mt-2 w-1/3">Stock type</th>
+                    <th class="bg-gray-400 p-1 mt-2 w-1/3">Company name </th>
+                    <th class="bg-gray-400 p-1 mt-2 w-1/3">Company symbol </th>
+                    <th class="bg-gray-400 p-1 mt-2 w-1/3">Stock type</th>
                 </tr>
                 @foreach($symbols as $symbol)
                     <tr>
-                        <td class="border border-gray-500 text-center">{{ $symbol->getName() }}</td>
-                        <td class="border border-gray-500 text-center">{{ $symbol->getSymbol() }}</td>
-                        <td class="border border-gray-500 text-center">{{ $symbol->getType() }}</td>
+                        <td class="border border-gray-300 text-center">{{ $symbol->getName() }}</td>
+                        <td class="border border-gray-300 text-center">{{ $symbol->getSymbol() }}</td>
+                        <td class="border border-gray-300 text-center">{{ $symbol->getType() }}</td>
                         <td class="">
                             <form action="/stock/{{$symbol->getSymbol()}}">
                                 @csrf
-                                <button class="m-2.5 border border-black py-1 px-2 hover:bg-gray-300 rounded" type="submit">Info</button>
+                                <button class="m-2.5 border border-gray-300 py-1 px-2 hover:bg-gray-300 rounded" type="submit">Trade</button>
                             </form>
                         </td>
                         @endforeach

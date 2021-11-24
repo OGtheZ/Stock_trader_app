@@ -6,6 +6,9 @@ use App\Models\Company;
 use App\Models\Quote;
 use App\Models\Symbol;
 use Finnhub\Api\DefaultApi;
+use Finnhub\ApiException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 
 
@@ -19,7 +22,7 @@ class APIStocksRepository implements StocksRepository
     }
 
 
-    public function getCompanySymbol(string $name): array
+    public function getCompanySymbol(string $name): ?array
     {
 
         $cacheKey = 'companies' . Str::snake(strtolower($name));
@@ -30,13 +33,19 @@ class APIStocksRepository implements StocksRepository
 
 
         $data = $this->client->symbolSearch($name)->getResult();
-        $symbolData = $data[0];
-        $symbol = new Symbol(
-            $symbolData->getDescription(),
-            $symbolData->getSymbol(),
-            $symbolData->getType()
-        );
-        $symbols = [$symbol];
+        if(empty($data)){
+            return null;
+        }
+        $symbols = [];
+        foreach($data as $company)
+        {
+            $symbols[] = new Symbol(
+                $company->getDescription(),
+                $company->getSymbol(),
+                $company->getType()
+            );
+        }
+
         cache()->put($cacheKey, $symbols, now()->addMinutes(10));
         return $symbols;
     }
@@ -50,7 +59,10 @@ class APIStocksRepository implements StocksRepository
         }
 
         $companyData = $this->client->companyProfile2($symbol);
-
+        if($companyData->getName() == null)
+        {
+            throw new ApiException("You don't have access to this resource!");
+        }
         $company = new Company(
             $companyData->getName(),
             $companyData->getTicker(),

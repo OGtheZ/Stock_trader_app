@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\emailReceived;
+use App\Events\FundsAdded;
 use App\Events\StocksBought;
 use App\Events\StocksSold;
 use App\Listeners\sendEmailWhenEmailReceived;
@@ -30,7 +31,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         StocksSold::class => [
             \App\Listeners\StocksSold::class
-        ]
+        ],
+        FundsAdded::class => [
+            \App\Listeners\FundsAdded::class
+        ],
     ];
 
     /**
